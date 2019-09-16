@@ -44,9 +44,9 @@ class AttributeController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getSingleAttribute()
+    public function getSingleAttribute($attribute_id)
     {
-        return response()->json(['message' => 'this works'], 205);
+        return $this->attributeService->getSingle($attribute_id);
     }
 
     /**
