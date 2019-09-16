@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Department;
 use App\Models\Product;
 use App\Repositories\Departments\DepartmentInterface;
+use App\Services\Categories\CategoryService;
 use App\Services\Departments\DepartmentService;
 use App\Services\Products\ProductService;
 
@@ -107,9 +108,9 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getAllCategories()
+    public function getAllCategories(CategoryService $categoryService)
     {
-        return response()->json(['status' => true, 'departments' => Department::all()]);
+        return $categoryService->getAll();
     }
 
     /**
