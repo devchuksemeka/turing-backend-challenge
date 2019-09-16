@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\Attributes\AttributeService;
 use Illuminate\Http\Request;
 
 /**
@@ -17,6 +18,17 @@ use Illuminate\Http\Request;
  */
 class AttributeController extends Controller
 {
+
+    protected $attributeService;
+    /**
+     * Inject Attributes Service class into the constructor
+     */
+    public function __construct(AttributeService $attributeService)
+    {
+        $this->attributeService = $attributeService;
+    }
+
+
     /**
      * This method should return an array of all attributes.
      *
@@ -24,7 +36,7 @@ class AttributeController extends Controller
      */
     public function getAllAttributes()
     {
-        return response()->json(['message' => 'this works'], 202);
+        return $this->attributeService->getAll();
     }
 
     /**
