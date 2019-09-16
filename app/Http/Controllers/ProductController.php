@@ -9,6 +9,7 @@ use App\Models\Product;
 use App\Repositories\Departments\DepartmentInterface;
 use App\Services\Categories\CategoryService;
 use App\Services\Departments\DepartmentService;
+use App\Services\ProductCategories\ProductCategoryService;
 use App\Services\Products\ProductService;
 
 /**
@@ -121,6 +122,16 @@ class ProductController extends Controller
     public function getCategory($category_id,CategoryService $categoryService)
     {
         return $categoryService->getSingle($category_id);
+    }
+
+    /**
+     * Returns all categories in a department.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getProductCategory($product_id,ProductCategoryService $productCategoryService)
+    {
+        return $productCategoryService->getSingleWithProduct($product_id);
     }
 
     /**

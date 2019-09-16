@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use CoenJacobs\EloquentCompositePrimaryKeys\HasCompositePrimaryKey;
 use Illuminate\Database\Eloquent\Model;
@@ -20,4 +20,9 @@ class ProductCategory extends Model
 
     protected $table = 'product_category';
     protected $primaryKey = ['product_id', 'category_id'];
+
+    
+    public function category(){
+        return $this->belongsTo(Category::class,'category_id','category_id');
+    }
 }
