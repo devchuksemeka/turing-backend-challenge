@@ -139,8 +139,8 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getDepartmentCategories()
+    public function getDepartmentCategories($department_id,CategoryService $categoryService)
     {
-        return response()->json(['message' => 'this works']);
+        return $categoryService->getAllCategoriesInDepartment($department_id);
     }
 }
