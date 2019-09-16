@@ -96,9 +96,9 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getDepartment(Department $dep)
+    public function getDepartment($department_id)
     {
-        return response()->json(['status' => false, 'department' => $dep]);
+        return $this->departmentService->getSingleDepartment($department_id);
 
     }
 
