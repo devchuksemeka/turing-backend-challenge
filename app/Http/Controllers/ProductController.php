@@ -118,6 +118,16 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
+    public function getCategory($category_id,CategoryService $categoryService)
+    {
+        return $categoryService->getSingle($category_id);
+    }
+
+    /**
+     * Returns all categories in a department.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getDepartmentCategories()
     {
         return response()->json(['message' => 'this works']);
