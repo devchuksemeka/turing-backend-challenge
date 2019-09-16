@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\DepartmentResource;
 use Illuminate\Http\Request;
 use App\Models\Department;
 use App\Models\Product;
+use App\Repositories\Departments\DepartmentInterface;
+use App\Services\Departments\DepartmentService;
+use App\Services\Products\ProductService;
 
 /**
  * The Product controller contains all methods that handles product request
@@ -15,6 +19,17 @@ use App\Models\Product;
  */
 class ProductController extends Controller
 {
+    protected $department;
+    protected $departmentService;
+    protected $productService;
+
+    public function __construct(DepartmentInterface $departmentInterface,
+        DepartmentService $departmentService,
+        ProductService $productService){
+        $this->department = $departmentInterface;
+        $this->productService = $productService;
+        $this->departmentService = $departmentService;
+    }
 
     /**
      * Return a paginated list of products.
@@ -73,7 +88,7 @@ class ProductController extends Controller
      */
     public function getAllDepartments()
     {
-        return response()->json(['message' => 'this works']);
+        return response()->json(DepartmentResource::collection($this->department->getAllDepartments()));
     }
 
     /**
