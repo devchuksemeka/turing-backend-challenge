@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateProductReviewRequest;
 use App\Http\Resources\DepartmentResource;
 use App\Services\ProductReviews\ProductReviewService;
 use Illuminate\Http\Request;
@@ -83,6 +84,16 @@ class ProductController extends Controller
     public function getProductsInDepartment($department_id,CategoryService $categoryService)
     {
         return $categoryService->getAllProductsInDepartment($department_id);
+    }
+
+    /**
+     * Returns a single product reviews with a matched id in the request params.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function createProductReview($product_id, CreateProductReviewRequest $request, ProductReviewService $productReviewService)
+    {
+        return $productReviewService->create($request->validated());
     }
 
     /**

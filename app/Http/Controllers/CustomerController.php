@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateCustomerRequest;
 use App\Models\Customer;
+use App\Services\Customers\CustomerService;
 use Illuminate\Http\Request;
 
 /**
@@ -18,6 +19,12 @@ use Illuminate\Http\Request;
  */
 class CustomerController extends Controller
 {
+    protected $service;
+
+    public function __construct(CustomerService $customerService)
+    {
+        $this->service = $customerService;
+    }
 
     /**
      * Allow customers to create a new account.
@@ -27,7 +34,7 @@ class CustomerController extends Controller
      */
     public function create(CreateCustomerRequest $request)
     {
-        return response()->json(['message' => 'this works']);
+        return $this->service->create($request->validated());
     }
 
     /**

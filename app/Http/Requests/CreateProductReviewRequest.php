@@ -6,7 +6,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class CreateCustomerRequest extends FormRequest
+class CreateProductReviewRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,10 +26,9 @@ class CreateCustomerRequest extends FormRequest
     public function rules()
     {
         return [
-            "name"=> "required",
-            "email" => "required|email|unique:customer",
-            "password" => "required|min:6",
-
+            "product_id" => "required|exists:product|numeric",
+            "review" => "required|string",
+            "rating" => "required|numeric",
         ];
     }
 
@@ -41,12 +40,13 @@ class CreateCustomerRequest extends FormRequest
     public function messages()
     {
         return [
-            "name.required"=> "Name is required",
-            "email.required" => "Email is required",
-            "email.unique" => "Account with email already exists",
-            "email.email" => "Email must be a valid email address",
-            "password.required" => "Password is required",
-
+            "product_id.required" => "Product ID must be supplied",
+            "product_id.exists" => "Product ID does not exists",
+            "product_id.numeric" => "Product ID must be an Integer",
+            "review.required" => "Product Review content must be supplied",
+            "review.string" => "Product Review must be a string value",
+            "rating.required" => "Product Rating must be supplied",
+            "rating.numeric" => "Product Rating must be a numeric value",
         ];
     }
 
