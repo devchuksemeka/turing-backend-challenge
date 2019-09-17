@@ -69,9 +69,9 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getProductsByCategory()
+    public function getProductsByCategory($category_id,ProductCategoryService $productCategoryService)
     {
-        return response()->json(['status' => true, 'products' => Product::countedAndPaginableResultsWithDepartments() ]);
+        return $productCategoryService->getAllProductsInCategory($category_id);
     }
 
     /**
