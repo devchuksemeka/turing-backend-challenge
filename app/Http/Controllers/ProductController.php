@@ -40,7 +40,7 @@ class ProductController extends Controller
      */
     public function getAllProducts()
     {
-        return response()->json(['status' => true, 'products' => Product::countedAndPaginableResults() ]);
+        return $this->productService->getAllWithPagination();
     }
 
     /**
