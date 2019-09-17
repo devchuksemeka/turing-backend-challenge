@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateCustomerRequest;
+use App\Http\Requests\LoginInputRequest;
 use App\Models\Customer;
 use App\Services\Customers\CustomerService;
 use Illuminate\Http\Request;
@@ -40,11 +41,12 @@ class CustomerController extends Controller
     /**
      * Allow customers to login to their account.
      *
+     * @param App\Http\Requests\LoginInputRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login()
+    public function login(LoginInputRequest $request)
     {
-        return response()->json(['message' => 'this works']);
+        return $this->service->login($request->validated());
     }
 
     /**
