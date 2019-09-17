@@ -54,9 +54,9 @@ class AttributeController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getAttributeValues()
+    public function getAttributeValues($attribute_id)
     {
-        return response()->json(['message' => 'this works1']);
+        return $this->attributeService->getAllAttributesValueInAttribute($attribute_id);
     }
 
     /**
@@ -64,9 +64,8 @@ class AttributeController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getProductAttributes()
+    public function getProductAttributes($product_id)
     {
-        return response()->json(['message' => 'this works']);
-
+        return $this->attributeService->getAllAttributesOfSingleProduct($product_id);
     }
 }
