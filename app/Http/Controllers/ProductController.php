@@ -79,9 +79,9 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getProductsInDepartment()
+    public function getProductsInDepartment($department_id,CategoryService $categoryService)
     {
-        return response()->json(['message' => 'this works']);
+        return $categoryService->getAllProductsInDepartment($department_id);
     }
 
     /**
