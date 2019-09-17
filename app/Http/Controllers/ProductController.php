@@ -60,7 +60,7 @@ class ProductController extends Controller
      */
     public function searchProduct()
     {
-        return response()->json(['message' => 'this works']);
+        return $this->productService->getAllSearchWithPagination();
     }
 
     /**
