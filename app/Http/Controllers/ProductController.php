@@ -46,11 +46,12 @@ class ProductController extends Controller
     /**
      * Returns a single product with a matched id in the request params.
      *
+     *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getProduct(Product $product)
+    public function getProduct($product_id)
     {
-        return response()->json(['status' => true, 'products' => $product]);
+        return $this->productService->getSingle($product_id);
     }
 
     /**
