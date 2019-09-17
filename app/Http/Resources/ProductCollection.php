@@ -18,10 +18,10 @@ class ProductCollection extends ResourceCollection
         return [
             'row' => ProductResource::collection($this->collection),
             'paginationMeta' => [
-                'totalRecords' => $this->total(),
                 'currentPageSize' => $this->perPage(),
                 'currentPage' => $this->currentPage(),
                 'totalPages' => $this->lastPage(),
+                'totalRecords' => $this->total(),
             ]
         ];
     }  
