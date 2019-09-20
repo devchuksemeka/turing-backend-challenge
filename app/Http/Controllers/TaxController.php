@@ -34,10 +34,11 @@ class TaxController extends Controller
     /**
      * This method gets a single tax using the tax id.
      *
+     * @param $tax_id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getTaxById()
+    public function getTaxById($tax_id)
     {
-        return response()->json(['message' => 'this works']);
+        return $this->taxService->getSingle($tax_id);
     }
 }
