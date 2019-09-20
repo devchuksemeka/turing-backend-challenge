@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AddItemToCartInputRequest;
 use App\Services\Orders\OrderService;
 use App\Services\ShoppingCarts\ShoppingCartService;
 use Illuminate\Http\Request;
@@ -43,9 +44,9 @@ class ShoppingCartController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function addItemToCart()
+    public function addItemToCart(AddItemToCartInputRequest $request)
     {
-        return response()->json(['message' => 'this works']);
+        return $this->shoppingCartService->addProduct(Auth::user(),$request->validated());
     }
 
     /**
