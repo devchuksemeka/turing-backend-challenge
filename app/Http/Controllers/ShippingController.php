@@ -41,8 +41,8 @@ class ShippingController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getShippingType($type_id)
+    public function getShippingType($shipping_region_id)
     {
-        return response()->json(['success' => true, 'shipping' => Shipping::where('shipping_region_id', $type_id)->first()]);
+        return $this->shippingService->getAllShippingInRegion($shipping_region_id);
     }
 }
