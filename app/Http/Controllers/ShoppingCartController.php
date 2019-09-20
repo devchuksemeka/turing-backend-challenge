@@ -76,11 +76,12 @@ class ShoppingCartController extends Controller
     /**
      * Should be able to clear shopping cart.
      *
+     * @param $cart_id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function emptyCart()
+    public function emptyCart($cart_id)
     {
-        return response()->json(['message' => 'this works']);
+        return $this->shoppingCartService->emptyCart($cart_id);
     }
 
     /**
