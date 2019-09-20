@@ -52,11 +52,12 @@ class ShoppingCartController extends Controller
     /**
      * Method to get list of items in a cart.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @param $cart_id
+     * @return \App\Http\Resources\ShoppingCartItemCollection
      */
-    public function getCart()
+    public function getCart($cart_id)
     {
-        return response()->json(['message' => 'this works']);
+        return $this->shoppingCartService->getAllItemInCartUsingCartId($cart_id);
     }
 
     /**

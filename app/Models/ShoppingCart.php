@@ -26,11 +26,24 @@ class ShoppingCart extends Model
     protected $primaryKey = 'item_id';
     protected $guarded = ['item_id'];
 
-    public static function getOrCreateCartId(User $user): string
-    {
-        $record = ShoppingCart::where('customer_id', $user->getKey())->select('cart_id')->first();
-        if($record) return $record->cart_id;
+    public function getSubtotalAttribute(){
+        $price = (float)$this->product->price;
+        $discounted_price = (float)$this->product->discounted_price;
+        $quantity = (float)$this->quantity;
+        if($discounted_price) $total = $quantity * $discounted_price;
+        else $total = $quantity * $price;
+        return (string)$total;
+    }
 
-        return uniqid($user->getKey().'_');
+    public function getUnitCostAttribute(){
+        $price = (float)$this->product->price;
+        $discounted_price = (float)$this->product->discounted_price;
+        if($discounted_price) $unit_cost = $discounted_price;
+        else $unit_cost = $price;
+        return (string)$unit_cost;
+    }
+
+    public function product(){
+        return $this->belongsTo(Product::class,'product_id','product_id');
     }
 }
