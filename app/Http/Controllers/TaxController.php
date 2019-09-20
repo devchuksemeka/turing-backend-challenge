@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\Taxes\TaxService;
 use Illuminate\Http\Request;
 
 /**
@@ -13,6 +14,13 @@ use Illuminate\Http\Request;
  */
 class TaxController extends Controller
 {
+    protected $taxService;
+
+    public function __construct(TaxService $taxService)
+    {
+        $this->taxService = $taxService;
+    }
+
     /**
      * This method get all taxes.
      *
@@ -20,7 +28,7 @@ class TaxController extends Controller
      */
     public function getAllTax()
     {
-        return response()->json(['message' => 'this works']);
+        return $this->taxService->getAll();
     }
 
     /**
