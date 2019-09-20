@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateCustomerRequest;
 use App\Http\Requests\LoginInputRequest;
 use App\Http\Requests\UpdateCustomerAddressRequest;
+use App\Http\Requests\UpdateCustomerCreditCardRequest;
 use App\Http\Requests\UpdateCustomerProfileRequest;
 use App\Models\Customer;
 use App\Services\Customers\CustomerService;
@@ -87,11 +88,12 @@ class CustomerController extends Controller
     /**
      * Allow customers to update their credit card number.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @param UpdateCustomerCreditCardRequest $request
+     * @return \App\Http\Resources\CustomerResource
      */
-    public function updateCreditCard()
+    public function updateCreditCard(UpdateCustomerCreditCardRequest $request)
     {
-        return response()->json(['message' => 'this works']);
+        return $this->service->updateCustomerCreditCard(Auth::user(),$request->validated());
     }
 
     /**
