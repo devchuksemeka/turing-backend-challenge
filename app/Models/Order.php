@@ -13,6 +13,10 @@ class Order extends Model
 
     protected $guarded = [];
 
+    protected $casts = [
+      "status" => "string"
+    ];
+
     public function orderDetails(){
         return $this->hasMany(OrderDetail::class,"order_id","order_id");
     }

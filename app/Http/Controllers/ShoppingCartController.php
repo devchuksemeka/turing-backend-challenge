@@ -128,6 +128,11 @@ class ShoppingCartController extends Controller
         return $this->orderService->getOrderSummary($order_id);
     }
 
+    public function getOrderShortDetail($order_id)
+    {
+        return $this->orderService->getOrderShortDetail($order_id);
+    }
+
     /**
      * Process stripe payment.
      *

@@ -36,6 +36,7 @@ Route::middleware("auth.jwt")->group(function(){
         Route::post('/', 'ShoppingCartController@createOrder');
         Route::get('/inCustomer', 'ShoppingCartController@getCustomerOrders');
         Route::get('/{order_id}', 'ShoppingCartController@getOrderSummary');
+        Route::get('/shortDetail/{order_id}', 'ShoppingCartController@getOrderShortDetail');
     });
 
     Route::post('/stripe/charge', 'ShoppingCartController@processStripePayment');
