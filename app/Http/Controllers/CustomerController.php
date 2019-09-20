@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateCustomerRequest;
 use App\Http\Requests\LoginInputRequest;
+use App\Http\Requests\UpdateCustomerProfileRequest;
 use App\Models\Customer;
 use App\Services\Customers\CustomerService;
 use Illuminate\Http\Request;
@@ -63,11 +64,12 @@ class CustomerController extends Controller
     /**
      * Allow customers to update their profile info like name, email, password, day_phone, eve_phone and mob_phone.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @param UpdateCustomerProfileRequest $request
+     * @return \App\Http\Resources\CustomerResource
      */
-    public function updateCustomerProfile()
+    public function updateCustomerProfile(UpdateCustomerProfileRequest $request)
     {
-        return response()->json(['message' => 'this works']);
+        return $this->service->updateCustomerProfile(Auth::user(),$request->validated());
     }
 
     /**
