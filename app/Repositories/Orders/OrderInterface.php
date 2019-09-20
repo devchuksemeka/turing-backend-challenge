@@ -11,4 +11,6 @@ interface OrderInterface
     public function create(array $attribute);
 
     public function getOrderSummaryUsingOrderId($order_id);
+
+    public function getCustomerOrders(int $customer_id);
 }

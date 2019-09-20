@@ -4,6 +4,7 @@ namespace App\Services\Orders;
 
 use App\Enums\ErrorCodes;
 use App\Http\Resources\CreateOrderResource;
+use App\Http\Resources\CustomerOrdersCollection;
 use App\Http\Resources\ShoppingCartItemCollection;
 use App\Http\Resources\SingleOrderResource;
 use App\Models\Customer;
@@ -81,6 +82,10 @@ class OrderService{
 
     public function getOrderSummary($order_id){
         return new SingleOrderResource($this->repository->getOrderSummaryUsingOrderId($order_id));
+    }
+
+    public function getCustomerOrders(Customer $customer){
+        return new CustomerOrdersCollection($this->repository->getCustomerOrders($customer->customer_id));
     }
 
 

@@ -114,7 +114,7 @@ class ShoppingCartController extends Controller
      */
     public function getCustomerOrders()
     {
-        return response()->json(['message' => 'this works']);
+        return $this->orderService->getCustomerOrders(Auth::user());
     }
 
     /**

@@ -12,7 +12,7 @@ class OrderRepository implements OrderInterface{
     {
         $this->model = $model;
     }
-    
+
     public function getAll(){
         return $this->model->all();
     }
@@ -21,7 +21,7 @@ class OrderRepository implements OrderInterface{
     {
         return $this->model->create($attribute);
     }
-    
+
     public function getSingle(int $id)
     {
         return $this->model->find($id);
@@ -30,5 +30,10 @@ class OrderRepository implements OrderInterface{
     public function getOrderSummaryUsingOrderId($order_id)
     {
         return $this->model->find($order_id);
+    }
+
+    public function getCustomerOrders(int $customer_id)
+    {
+        return $this->model->where("customer_id",$customer_id)->get();
     }
 }
