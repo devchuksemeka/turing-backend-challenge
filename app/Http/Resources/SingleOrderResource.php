@@ -14,6 +14,9 @@ class SingleOrderResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            "order_id" => $this->order_id,
+            "order_items" => OrderDetailResource::collection($this->orderDetails)
+        ];
     }
 }

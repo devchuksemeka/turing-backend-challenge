@@ -120,11 +120,12 @@ class ShoppingCartController extends Controller
     /**
      * Get the details of an order.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @param $order_id
+     * @return \App\Http\Resources\SingleOrderResource
      */
-    public function getOrderSummary()
+    public function getOrderSummary($order_id)
     {
-        return response()->json(['message' => 'this works']);
+        return $this->orderService->getOrderSummary($order_id);
     }
 
     /**
