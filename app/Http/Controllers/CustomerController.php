@@ -7,6 +7,7 @@ use App\Http\Requests\LoginInputRequest;
 use App\Models\Customer;
 use App\Services\Customers\CustomerService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Customer controller handles all requests that has to do with customer
@@ -54,9 +55,9 @@ class CustomerController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getCustomerProfile(Customer $customer)
+    public function getCustomerProfile()
     {
-        return response()->json(['status' => 'truw', 'customer' => $customer]);
+        return $this->service->getCustomerProfile(Auth::user());
     }
 
     /**
