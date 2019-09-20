@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Shipping;
 use App\Models\ShippingRegion;
+use App\Services\ShippingRegions\ShippingRegionService;
+use App\Services\Shippings\ShippingService;
 use Illuminate\Http\Request;
 
 /**
@@ -15,6 +17,14 @@ use Illuminate\Http\Request;
  */
 class ShippingController extends Controller
 {
+    protected $shippingRegionService;
+    protected $shippingService;
+
+    public function __construct(ShippingRegionService $shippingRegionService, ShippingService $shippingService)
+    {
+        $this->shippingRegionService = $shippingRegionService;
+        $this->shippingService = $shippingService;
+    }
 
     /**
      * Returns a list of all shipping region.
@@ -23,7 +33,7 @@ class ShippingController extends Controller
      */
     public function getShippingRegions()
     {
-        return response()->json(['success' => false, 'shipping' => ShippingRegion::all()]);
+        return $this->shippingRegionService->getAll();
     }
 
     /**
