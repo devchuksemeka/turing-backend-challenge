@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\Orders\OrderService;
+use App\Services\ShoppingCarts\ShoppingCartService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Check each method in the shopping cart controller and add code to implement
@@ -16,6 +19,14 @@ use Illuminate\Http\Request;
  */
 class ShoppingCartController extends Controller
 {
+    protected $orderService;
+    protected $shoppingCartService;
+
+    public function __construct(OrderService $orderService,ShoppingCartService $shoppingCartService)
+    {
+        $this->orderService = $orderService;
+        $this->shoppingCartService = $shoppingCartService;
+    }
 
     /**
      * To generate a unique cart id.
@@ -24,7 +35,7 @@ class ShoppingCartController extends Controller
      */
     public function generateUniqueCart()
     {
-        return response()->json(['message' => 'this works']);
+        return $this->shoppingCartService->getCartUniqueId(Auth::user());
     }
 
     /**
