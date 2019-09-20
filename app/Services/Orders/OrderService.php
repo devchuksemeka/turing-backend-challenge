@@ -6,6 +6,8 @@ use App\Enums\ErrorCodes;
 use App\Http\Resources\CreateOrderResource;
 use App\Http\Resources\ShoppingCartItemCollection;
 use App\Http\Resources\SingleOrderResource;
+use App\Models\Customer;
+use App\Repositories\OrderDetails\OrderDetailInterface;
 use App\Repositories\Orders\OrderInterface as RepoInterface;
 use App\Repositories\ShoppingCarts\ShoppingCartInterface;
 use App\Services\Errors\ErrorServiceInterface;
@@ -18,13 +20,13 @@ class OrderService{
     protected $shoppingCartRepo;
     protected $errorService;
 
-    public function __construct(RepoInterface $repoInterface,
-        ErrorServiceInterface $errorServiceInterface,
-        ShoppingCartInterface $shoppingCartInterface)
+    public function __construct(RepoInterface $repoInterface, ErrorServiceInterface $errorServiceInterface,
+        ShoppingCartInterface $shoppingCartInterface, OrderDetailInterface $orderDetail)
     {
         $this->repository = $repoInterface;
         $this->shoppingCartRepo = $shoppingCartInterface;
         $this->errorService = $errorServiceInterface;
+        $this->orderDetail = $orderDetail;
     }
 
     protected function getCartItemsTotalAmount($cart_id){
@@ -42,21 +44,39 @@ class OrderService{
 
         return $totalAmount;
     }
-   
 
-    public function create(array $attributes){
+
+    public function create(Customer $customer, array $attributes){
         $totalAmount = $this->getCartItemsTotalAmount(Arr::get($attributes,"cart_id"));
-
+        $cart_id = Arr::get($attributes,"cart_id");
         Arr::set($attributes,"total_amount",$totalAmount);
+        Arr::set($attributes,"customer_id",$customer->customer_id);
         Arr::set($attributes,"created_on",Carbon::now());
         Arr::forget($attributes,"cart_id");
 
         $orderCreated = $this->repository->create($attributes);
+
+        $this->createOrderDetailsUsingCartId($cart_id,$orderCreated->order_id);
+
+        // create order details
         return new CreateOrderResource($orderCreated);
     }
 
     protected function createOrderDetailsUsingCartId($cart_id,$order_id){
+        $cartItems = $this->shoppingCartRepo->getAllItemInCartUsingCartId($cart_id);
 
+        foreach($cartItems as $cart_item){
+
+            $this->orderDetail->create([
+//                "item_id" => $cart_item->item_id,
+                "order_id" => $order_id,
+                "product_id" => $cart_item->product_id,
+                "attributes" => $cart_item->attributes,
+                "product_name" => $cart_item->product->name,
+                "quantity" => $cart_item->quantity,
+                "unit_cost" => (float)$cart_item->unit_cost,
+            ]);
+        }
     }
 
     public function getOrderSummary($order_id){

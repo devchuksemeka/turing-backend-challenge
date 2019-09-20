@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AddItemToCartInputRequest;
+use App\Http\Requests\CreateOrderInputRequest;
 use App\Http\Requests\UpdateShoppingItemQuantityInputRequest;
 use App\Services\Orders\OrderService;
 use App\Services\ShoppingCarts\ShoppingCartService;
@@ -98,11 +99,12 @@ class ShoppingCartController extends Controller
     /**
      * Create an order.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @param CreateOrderInputRequest $request
+     * @return \App\Http\Resources\CreateOrderResource
      */
-    public function createOrder()
+    public function createOrder(CreateOrderInputRequest $request)
     {
-        return response()->json(['message' => 'this works']);
+        return $this->orderService->create(Auth::user(),$request->validated());
     }
 
     /**

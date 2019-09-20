@@ -12,6 +12,8 @@ use App\Repositories\Customers\CustomerInterface;
 use App\Repositories\Customers\CustomerRepository;
 use App\Repositories\Departments\DepartmentInterface;
 use App\Repositories\Departments\DepartmentRepository;
+use App\Repositories\OrderDetails\OrderDetailInterface;
+use App\Repositories\OrderDetails\OrderDetailRepository;
 use App\Repositories\Orders\OrderInterface;
 use App\Repositories\Orders\OrderRepository;
 use App\Repositories\ProductAttributes\ProductAttributeInterface;
@@ -61,6 +63,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(TaxInterface::class,TaxRepository::class);// Tax
         $this->app->singleton(ShippingRegionInterface::class,ShippingRegionRepository::class);// Shipping Region
         $this->app->singleton(ShippingInterface::class,ShippingRepository::class);// Shipping
+        $this->app->singleton(OrderDetailInterface::class,OrderDetailRepository::class);
 
         // SERVICES
         $this->app->bind(ErrorServiceInterface::class,ErrorService::class);
