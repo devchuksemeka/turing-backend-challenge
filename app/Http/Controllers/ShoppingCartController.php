@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AddItemToCartInputRequest;
+use App\Http\Requests\UpdateShoppingItemQuantityInputRequest;
 use App\Services\Orders\OrderService;
 use App\Services\ShoppingCarts\ShoppingCartService;
 use Illuminate\Http\Request;
@@ -63,11 +64,13 @@ class ShoppingCartController extends Controller
     /**
      * Update the quantity of a product in the shopping cart.
      *
+     * @param $item_id
+     * @param UpdateShoppingItemQuantityInputRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function updateCartItem()
+    public function updateCartItem($item_id,UpdateShoppingItemQuantityInputRequest $request)
     {
-        return response()->json(['message' => 'this works']);
+        return $this->shoppingCartService->updateQuantityUsingItemId($item_id, $request->validated());
     }
 
     /**
@@ -83,11 +86,12 @@ class ShoppingCartController extends Controller
     /**
      * Should delete a product from the shopping cart.
      *
+     * @param $item_id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function removeItemFromCart()
+    public function removeItemFromCart($item_id)
     {
-        return response()->json(['message' => 'this works']);
+        return $this->shoppingCartService->removeItem($item_id);
     }
 
     /**
