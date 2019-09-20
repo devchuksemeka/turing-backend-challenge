@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateCustomerRequest;
 use App\Http\Requests\LoginInputRequest;
+use App\Http\Requests\UpdateCustomerAddressRequest;
 use App\Http\Requests\UpdateCustomerProfileRequest;
 use App\Models\Customer;
 use App\Services\Customers\CustomerService;
@@ -75,11 +76,12 @@ class CustomerController extends Controller
     /**
      * Allow customers to update their address info/
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @param UpdateCustomerAddressRequest $request
+     * @return \App\Http\Resources\CustomerResource
      */
-    public function updateCustomerAddress()
+    public function updateCustomerAddress(UpdateCustomerAddressRequest $request)
     {
-        return response()->json(['message' => 'this works']);
+        return $this->service->updateCustomerAddress(Auth::user(),$request->validated());
     }
 
     /**
