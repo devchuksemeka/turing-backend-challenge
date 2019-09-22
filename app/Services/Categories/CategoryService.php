@@ -3,6 +3,9 @@
 namespace App\Services\Categories;
 
 use App\Enums\ErrorCodes;
+use App\Exceptions\Category\CategoryNotFoundException;
+use App\Exceptions\Department\DepartmentIdNotNumberException;
+use App\Exceptions\Department\DepartmentNotFoundException;
 use App\Http\Resources\Category\Collection as CategoryCollection;
 use App\Http\Resources\Category\Resource;
 use App\Http\Resources\ProductCollection;
@@ -31,33 +34,33 @@ class CategoryService{
         $category = $this->repository->getSingle($id);
 
         if($category) return new Resource($category);
-        
-        return $this->errorService->getResponse(ErrorCodes::CAT_01);
+
+        throw new CategoryNotFoundException();
     }
 
     public function getAllCategoriesInDepartment($department_id){
 
 
         $department_id = (int)$department_id; // return 0 for non numeric values and 0 value
-        
-        if($department_id == 0) return $this->errorService->getResponse(ErrorCodes::DEP_01);
+
+        if($department_id == 0) throw new DepartmentIdNotNumberException();
 
         $category = $this->repository->getAllCategoriesInDepartment($department_id);
         if(count($category) > 0) return new CategoryCollection($category);
 
-        return $this->errorService->getResponse(ErrorCodes::DEP_02);
+        throw new DepartmentNotFoundException();
     }
 
     public function getAllProductsInDepartment($department_id){
 
         $department_id = (int)$department_id; // return 0 for non numeric values and 0 value
-        
-        if($department_id == 0) return $this->errorService->getResponse(ErrorCodes::DEP_01);
+
+        if($department_id == 0) throw new DepartmentIdNotNumberException();
 
         $data = $this->repository->getAllProductsInDepartment($department_id);
         if(count($data) > 0) return new ProductCollection($data);
 
-        return $this->errorService->getResponse(ErrorCodes::DEP_02);
+        throw new DepartmentNotFoundException();
     }
 
 }

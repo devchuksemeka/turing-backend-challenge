@@ -3,6 +3,8 @@
 namespace App\Http\Middleware;
 
 use App\Enums\ErrorCodes;
+use App\Exceptions\Authentication\AccessAuthorizedException;
+use App\Exceptions\Authentication\AuthorizationEmptyException;
 use App\Services\Errors\ErrorServiceInterface;
 use Closure;
 use JWTAuth;
@@ -61,9 +63,9 @@ class JWTMiddleware extends BaseMiddleware
 
             $user = JWTAuth::parseToken()->authenticate();
         } catch (Exception $e) {
-            if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException) return $this->errorService->getResponse(ErrorCodes::AUT_02);
-            else if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException) return $this->errorService->getResponse(ErrorCodes::AUT_02);
-            else return $this->errorService->getResponse(ErrorCodes::AUT_01);
+            if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException) throw new AccessAuthorizedException();
+            else if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException) throw new AccessAuthorizedException();
+            else throw new AuthorizationEmptyException();
         }
         return $next($request);
     }

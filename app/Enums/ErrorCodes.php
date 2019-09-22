@@ -24,5 +24,6 @@ final class ErrorCodes extends Enum
 
     // USERS ERRORS
     const USR_01 = "USR_01";// Email or password is invalid
+    const USR_03 = "USR_03";// The email is invalid
     const USR_05 = "USR_05";// email doesnt exist
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\EmailValid;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -27,7 +28,7 @@ class CreateCustomerRequest extends FormRequest
     {
         return [
             "name"=> "required",
-            "email" => "required|email|unique:customer",
+            "email" => ["required","unique:customer",new EmailValid()],
             "password" => "required|min:6",
 
         ];
