@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\LoginType;
 use App\Http\Requests\CreateCustomerRequest;
+use App\Http\Requests\FacebookLoginInputRequest;
 use App\Http\Requests\LoginInputRequest;
 use App\Http\Requests\UpdateCustomerAddressRequest;
 use App\Http\Requests\UpdateCustomerCreditCardRequest;
@@ -35,7 +37,7 @@ class CustomerController extends Controller
      * Allow customers to create a new account.
      *
      * @param CreateCustomerRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return \App\Http\Resources\AuthCustomerResource
      */
     public function create(CreateCustomerRequest $request)
     {
@@ -45,7 +47,7 @@ class CustomerController extends Controller
     /**
      * Allow customers to login to their account.
      *
-     * @param App\Http\Requests\LoginInputRequest $request
+     * @param LoginInputRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function login(LoginInputRequest $request)
@@ -54,9 +56,20 @@ class CustomerController extends Controller
     }
 
     /**
+     * Allow customers to login to their account.
+     *
+     * @param FacebookLoginInputRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function facebook(FacebookLoginInputRequest $request)
+    {
+        return $this->service->login($request->validated(),LoginType::FACEBOOK);
+    }
+
+    /**
      * Allow customers to view their profile info.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return \App\Http\Resources\CustomerResource
      */
     public function getCustomerProfile()
     {

@@ -4,8 +4,21 @@ namespace App\Services\Errors;
 
 use App\Enums\ErrorCodes;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Arr;
 
 class ErrorService implements ErrorServiceInterface{
+
+    public function getErrorResource(array $attributes)
+    {
+        return response()->json([
+            "error" => [
+                "status" => 400,
+                "code" => Arr::get($attributes, "code", "SYS_01"),
+                "message" => Arr::get($attributes, "message", "Failed"),
+                "field" => Arr::get($attributes, "field", "application_error"),
+            ]
+        ], Arr::get($attributes, "status", 400));
+    }
 
     public function getResponse(string $error_code) : JsonResponse
     {
@@ -18,6 +31,7 @@ class ErrorService implements ErrorServiceInterface{
         elseif($error_code == ErrorCodes::AUT_02) return $this->getAuth02Error();
         elseif($error_code == ErrorCodes::USR_01) return $this->getUsr01Error();
         elseif($error_code == ErrorCodes::USR_05) return $this->getUsr05Error();
+
     }
 
     protected function getAuth01Error() : JsonResponse{
@@ -109,7 +123,7 @@ class ErrorService implements ErrorServiceInterface{
             ]
         ],400);
     }
-    
+
     protected function getUsr05Error() : JsonResponse{
         return response()->json([
             "error" => [

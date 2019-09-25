@@ -9,10 +9,9 @@ use App\Services\Errors\ErrorServiceInterface;
 use Closure;
 use JWTAuth;
 use Exception;
-use Namshi\JOSE\JWT;
-use Tymon\JWTAuth\Exceptions\JWTException;
+use Namshi\JOSE\SimpleJWS;
 use Tymon\JWTAuth\Http\Middleware\BaseMiddleware;
-//use Tymon\JWTAuth\JWT;
+
 
 class JWTMiddleware extends BaseMiddleware
 {
@@ -23,45 +22,39 @@ class JWTMiddleware extends BaseMiddleware
 //        parent::__construct();
         $this->errorService = $errorService;
     }
+
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure $next
      * @return mixed
+     * @throws AccessAuthorizedException
+     * @throws AuthorizationEmptyException
      */
     public function handle($request, Closure $next)
     {
         try {
 //            $token = $request->header("USER-KEY");
-//            if(!$token) return $this->errorService->getResponse(ErrorCodes::AUT_01);
-//
+//            if(!$token) throw new AuthorizationEmptyException();
 //
 //            $haveBearer = explode(" ",$token);
-//            if($haveBearer[0] !== "Bearer")  return $this->errorService->getResponse(ErrorCodes::AUT_01);
 //
-//            // get core token
-//            $token_splitted = explode(".",$haveBearer[1]);
+//            if($haveBearer[0] !== "Bearer")  throw new AuthorizationEmptyException();
+////            // get core token
+////            $user = JWTAuth::toUser($haveBearer[1]);
 //
+//            $secret = config('jwt.secret');
+//            $jws = SimpleJWS::load($haveBearer[1]);
+//
+//            if (!$jws->isValid($secret)) throw new AccessAuthorizedException();
+//            $payload = $jws->getPayload();
 ////            return response()->json([
-////                "data" => JWTAuth::decode($haveBearer[1],env("JWT_SECRET")),
+////                $payload
 ////            ]);
-//
-//
-//            return response()->json([
-//                "base64_decode_1" => json_decode(base64_decode($token_splitted[0])),
-//                "base64_decode_2" => json_decode(base64_decode($token_splitted[1])),
-//                "base64_decode_3" => json_decode(base64_decode($token_splitted[2]))
-//            ]);
-//
-//            $user = User::find($credentials->sub);
-//            // Now let's put the user in the request class so that you can grab it from there
-//            $request->auth = $user;
-//            $request->auth->id = Hasher::decode($user->_idd);
-//            return $next($request);
-
-
+///
             $user = JWTAuth::parseToken()->authenticate();
+
         } catch (Exception $e) {
             if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException) throw new AccessAuthorizedException();
             else if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException) throw new AccessAuthorizedException();
