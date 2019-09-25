@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\ValidCreditCard;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
@@ -25,7 +26,7 @@ class UpdateCustomerCreditCardRequest extends FormRequest
     public function rules()
     {
         return [
-            "credit_card" => "required"
+            "credit_card" => ["required",new ValidCreditCard()]
         ];
     }
 
@@ -36,7 +37,7 @@ class UpdateCustomerCreditCardRequest extends FormRequest
      */
     public function messages()
     {
-     
+
         return [
             "credit_card.required" => "Credit Card is required",
         ];

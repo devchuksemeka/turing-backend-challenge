@@ -17,7 +17,6 @@ Route::middleware("auth.jwt")->group(function(){
     Route::group(['prefix' => 'customer'], function () {
         Route::get('/', 'CustomerController@getCustomerProfile');
         Route::put('/', 'CustomerController@updateCustomerProfile');
-        // Route::put('/', 'CustomerController@apply');
         Route::put('/address', 'CustomerController@updateCustomerAddress');
         Route::put('/creditCard', 'CustomerController@updateCreditCard');
     });

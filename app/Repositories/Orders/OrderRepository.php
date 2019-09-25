@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Orders;
 
+use App\Exceptions\Orders\InvalidOrderIdException;
 use App\Models\Order as Model;
 
 class OrderRepository implements OrderInterface{
@@ -35,5 +36,18 @@ class OrderRepository implements OrderInterface{
     public function getCustomerOrders(int $customer_id)
     {
         return $this->model->where("customer_id",$customer_id)->get();
+    }
+
+    /**
+     * @param int $order_id
+     * @param array $attributes
+     * @return bool
+     * @throws InvalidOrderIdException
+     */
+    public function updateOrder(int $order_id, array $attributes): bool
+    {
+        $single = $this->getSingle($order_id);
+        if(!$single) throw new InvalidOrderIdException();
+        return $single->update($attributes);
     }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\EmailValid;
+use App\Rules\ValidPhoneNumber;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -27,11 +29,11 @@ class UpdateCustomerProfileRequest extends FormRequest
     public function rules()
     {
         return [
-            "email" => "required|email|unique:customer,email,".Auth::user()->customer_id.",customer_id",
+            "email" => ["required",new EmailValid(),"unique:customer,email,".Auth::user()->customer_id.",customer_id"],
             "name" => "required",
-            "day_phone" => "required",
-            "eve_phone" => "required",
-            "mob_phone" => "required"
+            "day_phone" => ["required",new ValidPhoneNumber()],
+            "eve_phone" => ["required",new ValidPhoneNumber()],
+            "mob_phone" => ["required",new ValidPhoneNumber()]
         ];
     }
 

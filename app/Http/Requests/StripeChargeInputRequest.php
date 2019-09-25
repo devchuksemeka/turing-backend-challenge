@@ -2,13 +2,13 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\EmailAlreadyExist;
-use App\Rules\EmailValid;
+use App\Models\Order;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Support\Facades\Auth;
 
-class CreateCustomerRequest extends FormRequest
+class StripeChargeInputRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -17,7 +17,7 @@ class CreateCustomerRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return Auth::check();
     }
 
     /**
@@ -28,27 +28,9 @@ class CreateCustomerRequest extends FormRequest
     public function rules()
     {
         return [
-            "name"=> "required",
-            "email" => ["required","unique:customer",new EmailValid(),new EmailAlreadyExist()],
-            "password" => "required|min:6",
-
-        ];
-    }
-
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function messages()
-    {
-        return [
-            "name.required"=> "Name is required",
-            "email.required" => "Email is required",
-            "email.unique" => "Account with email already exists",
-            "email.email" => "Email must be a valid email address",
-            "password.required" => "Password is required",
-
+            "stripeToken" => "required",
+            "email" => "required|email",
+            "order_id" => "required|exists:".Order::TABLE_NAME,
         ];
     }
 

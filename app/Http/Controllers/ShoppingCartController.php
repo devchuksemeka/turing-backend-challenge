@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AddItemToCartInputRequest;
 use App\Http\Requests\CreateOrderInputRequest;
+use App\Http\Requests\StripeChargeInputRequest;
 use App\Http\Requests\UpdateShoppingItemQuantityInputRequest;
 use App\Services\Orders\OrderService;
 use App\Services\ShoppingCarts\ShoppingCartService;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -44,7 +44,8 @@ class ShoppingCartController extends Controller
     /**
      * To add new product to the cart.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @param AddItemToCartInputRequest $request
+     * @return \App\Http\Resources\ShoppingCartResource
      */
     public function addItemToCart(AddItemToCartInputRequest $request)
     {
@@ -67,7 +68,7 @@ class ShoppingCartController extends Controller
      *
      * @param $item_id
      * @param UpdateShoppingItemQuantityInputRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return \App\Http\Resources\ShoppingCartResource
      */
     public function updateCartItem($item_id,UpdateShoppingItemQuantityInputRequest $request)
     {
@@ -110,7 +111,7 @@ class ShoppingCartController extends Controller
     /**
      * Get all orders of a customer.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return \App\Http\Resources\CustomerOrdersCollection
      */
     public function getCustomerOrders()
     {
@@ -136,10 +137,11 @@ class ShoppingCartController extends Controller
     /**
      * Process stripe payment.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @param StripeChargeInputRequest $request
+     * @return void
      */
-    public function processStripePayment()
+    public function processStripePayment(StripeChargeInputRequest $request)
     {
-        return response()->json(['message' => 'this works']);
+        return $this->orderService->handleMakeOrderPayment(Auth::user(),$request->validated());
     }
 }

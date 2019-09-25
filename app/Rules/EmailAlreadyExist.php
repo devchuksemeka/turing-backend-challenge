@@ -2,20 +2,14 @@
 
 namespace App\Rules;
 
+use App\Exceptions\Users\EmailAlreadyExistException;
+use App\Models\Customer;
+use App\Repositories\Customers\CustomerInterface;
+use App\Repositories\Customers\CustomerRepository;
 use Illuminate\Contracts\Validation\Rule;
 
 class EmailAlreadyExist implements Rule
 {
-    /**
-     * Create a new rule instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
-
     /**
      * Determine if the validation rule passes.
      *
@@ -25,16 +19,17 @@ class EmailAlreadyExist implements Rule
      */
     public function passes($attribute, $value)
     {
-        //
+        $customerExist = Customer::where("email",$value);
+        if($customerExist) return false;
+        return true;
     }
 
     /**
-     * Get the validation error message.
-     *
-     * @return string
+     * @return array|string|void
+     * @throws EmailAlreadyExistException
      */
     public function message()
     {
-        return 'The validation error message.';
+        throw new EmailAlreadyExistException();
     }
 }

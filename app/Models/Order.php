@@ -6,9 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
+    const TABLE_NAME = "orders";
     public $timestamps = false;
 
-    protected $table = 'orders';
+    protected $table =  self::TABLE_NAME;
+
     protected $primaryKey = 'order_id';
 
     protected $guarded = [];

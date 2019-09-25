@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\ShippingRegionIdIsNumber;
+use App\Rules\ValueTooLong;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
@@ -25,13 +27,13 @@ class UpdateCustomerAddressRequest extends FormRequest
     public function rules()
     {
         return [
-            "address_1" => "required",
-            "address_2" => "required",
+            "address_1" => ["required",new ValueTooLong()],
+            "address_2" => ["required",new ValueTooLong()],
             "city" => "required",
             "region" => "required",
             "postal_code" => "required",
-            "shipping_region_id" => "required|numeric",
-        
+            "shipping_region_id" => ["required",new ShippingRegionIdIsNumber()],
+
         ];
     }
 
@@ -42,7 +44,7 @@ class UpdateCustomerAddressRequest extends FormRequest
      */
     public function messages()
     {
-     
+
         return [
             "address_1.required" => "Address 1 is required",
             "address_2.required" => "Address 2 is required",

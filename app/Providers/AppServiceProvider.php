@@ -36,6 +36,8 @@ use App\Services\Customers\AppDefaultLoginService;
 use App\Services\Customers\LoginInterface;
 use App\Services\Errors\ErrorService;
 use App\Services\Errors\ErrorServiceInterface;
+use App\Services\Payments\Interfaces\ChargingInterface;
+use App\Services\Payments\StripePayments\StripeCharging;
 use Illuminate\Http\Resources\Json\Resource;
 use Illuminate\Support\ServiceProvider;
 
@@ -64,6 +66,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(ShippingRegionInterface::class,ShippingRegionRepository::class);// Shipping Region
         $this->app->singleton(ShippingInterface::class,ShippingRepository::class);// Shipping
         $this->app->singleton(OrderDetailInterface::class,OrderDetailRepository::class);
+        $this->app->singleton(ChargingInterface::class,StripeCharging::class);
 
         // SERVICES
         $this->app->bind(ErrorServiceInterface::class,ErrorService::class);

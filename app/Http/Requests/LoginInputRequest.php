@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\EmailValid;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -26,7 +27,7 @@ class LoginInputRequest extends FormRequest
     public function rules()
     {
         return [
-            "email" => "required|email",
+            "email" => ["required",new EmailValid()],
             "password" => "required|min:6",
         ];
     }
