@@ -35,24 +35,10 @@ class JWTMiddleware extends BaseMiddleware
     public function handle($request, Closure $next)
     {
         try {
-//            $token = $request->header("USER-KEY");
-//            if(!$token) throw new AuthorizationEmptyException();
-//
-//            $haveBearer = explode(" ",$token);
-//
-//            if($haveBearer[0] !== "Bearer")  throw new AuthorizationEmptyException();
-////            // get core token
-////            $user = JWTAuth::toUser($haveBearer[1]);
-//
-//            $secret = config('jwt.secret');
-//            $jws = SimpleJWS::load($haveBearer[1]);
-//
-//            if (!$jws->isValid($secret)) throw new AccessAuthorizedException();
-//            $payload = $jws->getPayload();
-////            return response()->json([
-////                $payload
-////            ]);
-///
+            $token = $request->header("USER-KEY");
+            if(!$token) throw new AuthorizationEmptyException();
+
+            $request->headers->add(["Authorization"=>$token]);
             $user = JWTAuth::parseToken()->authenticate();
 
         } catch (Exception $e) {
