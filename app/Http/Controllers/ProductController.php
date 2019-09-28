@@ -104,7 +104,19 @@ class ProductController extends Controller
     }
 
     /**
-     * Returns a list of all product departments.
+     *
+     * @group DEPARTMENTS
+     *
+     * GET ALL DEPARTMENTS
+     * This endpoint retrieve the list of departments from the database and returns an array of department objects to the user
+     *
+     * @response  [
+     *   {
+    *       "department_id": integer,
+    *       "name": string,
+    *       "description" : string,
+    *   },
+     * ]
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -114,9 +126,15 @@ class ProductController extends Controller
     }
 
     /**
-     * Returns a single department.
+     * @group DEPARTMENTS
      *
+     * GET A SINGLE DEPARTMENT
+     * This endpoint get a single department using the department Id in the request params.
+     *
+     * @param $department_id
      * @return \Illuminate\Http\JsonResponse
+     * @throws \App\Exceptions\Department\DepartmentIdNotNumberException
+     * @throws \App\Exceptions\Department\DepartmentNotFoundException
      */
     public function getDepartment($department_id)
     {

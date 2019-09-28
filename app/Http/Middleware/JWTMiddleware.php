@@ -38,7 +38,10 @@ class JWTMiddleware extends BaseMiddleware
             $token = $request->header("USER-KEY");
             if(!$token) throw new AuthorizationEmptyException();
 
-            $request->headers->add(["Authorization"=>$token]);
+            $request->headers->add([
+                "Authorization" => $token
+            ]);
+
             $user = JWTAuth::parseToken()->authenticate();
 
         } catch (Exception $e) {
